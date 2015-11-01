@@ -5,18 +5,20 @@ sudo: false
 cache:
   directories:
   - $HOME/.gradle
-install: "./gradlew classes"
+  - $HOME/jgiven-html5-report/node_modules
+install: "./gradlew --daemon classes"
 script:
-- "./gradlew test -DjunitVersion=4.9"
-- "./gradlew test -DjunitVersion=4.10"
-- "./gradlew test -DjunitVersion=4.11"
-- "./gradlew test -DjunitVersion=4.12"
+- "./gradlew --daemon test -DjunitVersion=4.9"
+- "./gradlew --daemon test -DjunitVersion=4.10"
+- "./gradlew --daemon test -DjunitVersion=4.11"
+- "./gradlew --daemon test -DjunitVersion=4.12"
 jdk:
 - oraclejdk8
 - oraclejdk7
 - openjdk6
 after_success:
-- test "$TRAVIS_JDK_VERSION" == "oraclejdk7" && test "$TRAVIS_BRANCH" == "master" && test "$TRAVIS_PULL_REQUEST" == "false" && ./gradlew overallJacocoReport coveralls uploadArchives
+- test "$TRAVIS_JDK_VERSION" == "oraclejdk7" && test "$TRAVIS_BRANCH" == "master" && test "$TRAVIS_PULL_REQUEST" == "false" && ./gradlew --daemon overallJacocoReport coveralls uploadArchives
+- ./gradlew --stop
 env:
   global:
   - secure: G7EOz25xYyIzvQwF0eKEgr+0I2S9ZO2xN6BorELeuAVDowYa2B3hJjk4zIRkc1YGWx1CTYvtOEMVVTp9nL93cn18rTNulDMPl5vvBw6t4Ag1BTovUmN2a2y7N1f4N+stmEKHmH2kUZqYSif5vYbK/2044tDtO8nfQ9/va3HxaKs=
